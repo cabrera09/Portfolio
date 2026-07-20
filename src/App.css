@@ -65,3 +65,50 @@ h1 span, h2 span { color: var(--blue); }
 @media (max-width: 800px) { .section-shell, .site-header { width: min(100% - 40px, 620px); } .site-header { min-height: 74px; }.logo { width: 42px; } nav { gap: 15px; } nav a { font-size: 12px; }.hero { min-height: calc(100vh - 74px); padding: 78px 0 94px; grid-template-columns: 1fr; position: relative; isolation: isolate; }.hero::before, .hero::after { content: ""; position: absolute; z-index: -1; border-radius: 50%; pointer-events: none; }.hero::before { width: 280px; height: 280px; top: 4%; right: -135px; background: radial-gradient(circle, rgba(76,111,255,.32), rgba(76,111,255,0) 68%); }.hero::after { width: 180px; height: 180px; bottom: 4%; left: -95px; border: 1px solid rgba(76,111,255,.3); }.hero-copy { order: 2; }.hero-visual { display: none; }.about, .projects { padding: 82px 0; }.about-grid { grid-template-columns: 1fr; gap: 26px; margin-top: 34px; }.about-lead { font-size: 21px; }.tools { padding: 78px 0; }.skills-grid { grid-template-columns: repeat(2, 1fr); }.skill:nth-child(3n) { border-right: 1px solid var(--line); }.skill:nth-child(2n) { border-right: 0; }.skill:nth-child(3) { border-top: 1px solid var(--line); }.section-heading-row { align-items: start; flex-direction: column; }.project-grid { grid-template-columns: 1fr; margin-top: 34px; }.project-card { min-height: 245px; }.contact-inner { min-height: 320px; flex-direction: column; align-items: flex-start; justify-content: center; }.contact-actions { align-items: flex-start; }.footer { min-height: 80px; flex-wrap: wrap; } }
 @media (max-width: 600px) { .site-header { position: sticky; } .menu-toggle { width: 42px; height: 42px; padding: 10px; display: flex; flex-direction: column; justify-content: center; gap: 5px; border: 1px solid var(--line); border-radius: 5px; background: transparent; color: #fff; cursor: pointer; }.menu-toggle span { width: 100%; height: 2px; display: block; background: currentColor; transition: transform .2s, opacity .2s; }.menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(7px) rotate(45deg); }.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }.menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-7px) rotate(-45deg); } nav { position: absolute; top: calc(100% + 8px); right: 0; left: 0; display: none; padding: 12px; flex-direction: column; gap: 0; border: 1px solid var(--line); border-radius: 6px; background: rgba(25,28,40,.98); box-shadow: 0 14px 35px rgba(0,0,0,.25); } nav.is-open { display: flex; } nav a { padding: 13px 10px; font-size: 14px; } }
 @media (max-width: 480px) { .section-shell, .site-header { width: calc(100% - 32px); }.hero { padding: 48px 0 72px; gap: 36px; }.hero-visual { min-height: 305px; }.profile-frame { width: min(245px, 72vw); }.orb-one { width: min(225px, 68vw); height: min(225px, 68vw); }.orb-two { width: 76px; height: 76px; }.availability { right: -3px; font-size: 9px; }.intro { font-size: 16px; line-height: 1.65; }.buttons { flex-direction: column; }.button { width: 100%; }.skills-grid { grid-template-columns: 1fr; }.skill, .skill:nth-child(3n) { border-right: 0; border-top: 1px solid var(--line); }.skill:first-child { border-top: 0; }.contact-inner { min-height: 290px; }.footer { min-height: 112px; align-content: center; gap: 8px; font-size: 10px; }.footer address { width: 100%; flex-direction: column; align-items: flex-start; gap: 8px; } }
+
+/* Fluid safeguards shared by every viewport. */
+img { max-width: 100%; }
+.section-shell { width: min(1160px, calc(100% - clamp(32px, 6vw, 64px))); }
+
+@media (min-width: 801px) and (max-width: 1024px) {
+  .site-header { width: min(100% - 48px, 960px); }
+  .hero { gap: 32px; }
+  .hero-visual { min-height: 430px; }
+  .profile-frame { width: min(340px, 38vw); }
+  .orb-one { width: 310px; height: 310px; }
+  .about-grid { gap: clamp(40px, 8vw, 80px); }
+  .project-grid { grid-template-columns: repeat(2, 1fr); }
+  .project-card:last-child { grid-column: 1 / -1; min-height: 260px; }
+}
+
+/* Five links become a menu before the tablet header starts to feel crowded. */
+@media (max-width: 720px) {
+  .site-header { min-height: 70px; }
+  .menu-toggle { width: 42px; height: 42px; padding: 10px; display: flex; flex-direction: column; justify-content: center; gap: 5px; border: 1px solid var(--line); border-radius: 5px; background: transparent; color: #fff; cursor: pointer; }
+  .menu-toggle span { width: 100%; height: 2px; display: block; background: currentColor; transition: transform .2s, opacity .2s; }
+  .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-7px) rotate(-45deg); }
+  nav { position: absolute; top: calc(100% + 8px); right: 0; left: 0; display: none; padding: 12px; flex-direction: column; gap: 0; border: 1px solid var(--line); border-radius: 6px; background: rgba(25,28,40,.98); box-shadow: 0 14px 35px rgba(0,0,0,.25); }
+  nav.is-open { display: flex; }
+  nav a { padding: 13px 10px; font-size: 14px; }
+  .section-heading-row { align-items: start; flex-direction: column; }
+  .heading-copy { margin-bottom: 0; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: clamp(46px, 15vw, 56px); }
+  .section-heading h2 { font-size: clamp(36px, 12vw, 48px); }
+  .social { flex-wrap: wrap; }
+  .button-light { white-space: normal; }
+}
+
+@media (max-width: 360px) {
+  .section-shell, .site-header { width: calc(100% - 24px); }
+  .mobile-logo-intro { min-height: 62svh; }
+  .hero { padding-top: 64px; }
+  .about, .projects { padding: 64px 0; }
+  .tools { padding: 64px 0; }
+  .skill { min-height: 112px; padding: 20px; }
+  .contact h2 { font-size: 42px; }
+}

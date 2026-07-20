@@ -1,14 +1,24 @@
 html { background: #11131c; }
 
 @media (max-width: 800px) {
-  .site-header { position: fixed; top: 0; left: 50%; z-index: 10; transform: translate(-50%, -120%); opacity: 0; pointer-events: none; transition: transform .35s ease, opacity .35s ease; }
+  .site-header { position: fixed; top: env(safe-area-inset-top); left: 50%; z-index: 10; transform: translate(-50%, -120%); opacity: 0; pointer-events: none; transition: transform .35s ease, opacity .35s ease; }
   .site-header.is-scrolled { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
   .site-header.is-scrolled .logo { animation: header-logo-arrive .45s cubic-bezier(.22, 1, .36, 1) both; }
-  .mobile-logo-intro { min-height: 100svh; display: grid; place-items: center; background: radial-gradient(circle at 50% 50%, rgba(76,111,255,.16), transparent 38%); }
-  .mobile-logo-intro img { width: clamp(105px, 28vw, 145px); transform: translateY(var(--logo-scroll-y, 0)) scale(var(--logo-scroll-scale, 1)); opacity: var(--logo-scroll-opacity, 1); filter: drop-shadow(0 0 28px rgba(76,111,255,.4)); transition: filter .25s ease; animation: logo-glow 2.5s ease-in-out infinite; }
-  .hero { min-height: auto; padding: 110px 0 94px; }
+  .mobile-logo-intro { min-height: clamp(390px, 78svh, 560px); display: grid; place-items: center; padding: max(24px, env(safe-area-inset-top)) 24px; position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle at 50% 50%, rgba(76,111,255,.16), transparent 40%); }
+  .mobile-logo-intro::before, .mobile-logo-intro::after { content: ""; position: absolute; z-index: -1; border-radius: 50%; pointer-events: none; }
+  .mobile-logo-intro::before { width: clamp(220px, 54vw, 340px); aspect-ratio: 1; border: 1px solid rgba(126,147,255,.34); box-shadow: 0 0 0 24px rgba(76,111,255,.05), 0 0 0 50px rgba(76,111,255,.025); animation: logo-ripple 3.8s ease-out infinite; }
+  .mobile-logo-intro::after { width: clamp(176px, 43vw, 274px); aspect-ratio: 1; border: 1px dashed rgba(150,166,255,.4); animation: logo-orbit 16s linear infinite; }
+  .mobile-logo-intro img { width: clamp(96px, 27vw, 135px); max-width: 38vw; position: relative; z-index: 1; transform: translateY(var(--logo-scroll-y, 0)) scale(var(--logo-scroll-scale, 1)); opacity: var(--logo-scroll-opacity, 1); filter: drop-shadow(0 0 28px rgba(76,111,255,.4)); transition: filter .25s ease; animation: logo-glow 2.5s ease-in-out infinite; }
+  .hero { min-height: auto; padding: clamp(76px, 12vw, 110px) 0 88px; }
   .hero-copy.hero-enter[data-reveal] { animation: none; }
+}
+
+@media (max-width: 480px) {
+  .mobile-logo-intro { min-height: clamp(340px, 70svh, 460px); }
+  .mobile-logo-intro img { width: clamp(88px, 30vw, 118px); }
 }
 
 @keyframes header-logo-arrive { from { transform: translateY(-10px) scale(.65); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
 @keyframes logo-glow { 50% { filter: drop-shadow(0 0 42px rgba(76,111,255,.68)); } }
+@keyframes logo-ripple { 0%, 100% { opacity: .18; transform: scale(.9); } 50% { opacity: .75; transform: scale(1.08); } }
+@keyframes logo-orbit { to { transform: rotate(360deg); } }
