@@ -79,7 +79,13 @@ function App() {
 
       <main>
         <section className="mobile-logo-intro" aria-label="Jaylord Cabrera portfolio">
-          <img src={logo} alt="Jaylord Cabrera logo" />
+          <div className="logo-stage">
+            <img src={logo} alt="Jaylord Cabrera logo" />
+          </div>
+          <a className="scroll-cue" href="#home" aria-label="Scroll to introduction">
+            <span className="scroll-cue-mouse" aria-hidden="true"><i /></span>
+            <span>Scroll to explore</span>
+          </a>
         </section>
         <section className="hero section-shell" id="home">
           <div className="hero-copy hero-enter" data-reveal>
