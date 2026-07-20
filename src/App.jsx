@@ -18,6 +18,7 @@ const projects = [
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
     const elements = document.querySelectorAll("[data-reveal]");
@@ -34,11 +35,24 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const updateScrollState = () => {
+      const progress = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+      document.documentElement.style.setProperty("--logo-scroll-scale", String(1 - progress * 0.46));
+      document.documentElement.style.setProperty("--logo-scroll-y", `${progress * -90}px`);
+      document.documentElement.style.setProperty("--logo-scroll-opacity", String(1 - progress * 0.8));
+      setHasScrolled(window.scrollY > 28);
+    };
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollState);
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
-      <header className="site-header">
+      <header className={`site-header${hasScrolled ? " is-scrolled" : ""}`}>
         <a className="brand" href="#home" aria-label="Jaylord Cabrera home">
           <img src={logo} alt="Jaylord Cabrera logo" className="logo" />
         </a>
@@ -64,8 +78,11 @@ function App() {
       </header>
 
       <main>
+        <section className="mobile-logo-intro" aria-label="Jaylord Cabrera portfolio">
+          <img src={logo} alt="Jaylord Cabrera logo" />
+        </section>
         <section className="hero section-shell" id="home">
-          <div className="hero-copy hero-enter">
+          <div className="hero-copy hero-enter" data-reveal>
             <p className="eyebrow">Hello, I am</p>
             <h1>JAYLORD <span>CABRERA</span></h1>
             <p className="intro">An IT graduate creating modern, responsive, and user-friendly websites that make a strong first impression.</p>
