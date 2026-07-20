@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 import profile from "./assets/images/profile.png";
@@ -19,6 +19,8 @@ const projects = [
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [landingDismissed, setLandingDismissed] = useState(false);
+  const landingRef = useRef(null);
 
   useEffect(() => {
     const elements = document.querySelectorAll("[data-reveal]");
@@ -41,19 +43,24 @@ function App() {
       document.documentElement.style.setProperty("--logo-scroll-scale", String(1 - progress * 0.46));
       document.documentElement.style.setProperty("--logo-scroll-y", `${progress * -90}px`);
       document.documentElement.style.setProperty("--logo-scroll-opacity", String(1 - progress * 0.8));
-      setHasScrolled(window.scrollY > 28);
+      setHasScrolled(window.scrollY > 8);
+
+      if (!landingDismissed && landingRef.current?.getBoundingClientRect().bottom < 80) {
+        setLandingDismissed(true);
+        setMenuOpen(false);
+      }
     };
     updateScrollState();
     window.addEventListener("scroll", updateScrollState, { passive: true });
     return () => window.removeEventListener("scroll", updateScrollState);
-  }, []);
+  }, [landingDismissed]);
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
       <header className={`site-header${hasScrolled ? " is-scrolled" : ""}`}>
-        <a className="brand" href="#home" aria-label="Jaylord Cabrera home">
+        <a className="brand" href={landingDismissed ? "#about" : "#home"} aria-label="Jaylord Cabrera home">
           <img src={logo} alt="Jaylord Cabrera logo" className="logo" />
         </a>
         <button
@@ -69,7 +76,7 @@ function App() {
           <span />
         </button>
         <nav id="primary-navigation" className={menuOpen ? "is-open" : ""} aria-label="Main navigation">
-          <a href="#home" onClick={closeMenu}>Home</a>
+          <a href={landingDismissed ? "#about" : "#home"} onClick={closeMenu}>Home</a>
           <a href="#about" onClick={closeMenu}>About</a>
           <a href="#tools" onClick={closeMenu}>Tools</a>
           <a href="#projects" onClick={closeMenu}>Projects</a>
@@ -78,16 +85,17 @@ function App() {
       </header>
 
       <main>
-        <section className="mobile-logo-intro" aria-label="Jaylord Cabrera portfolio">
-          <div className="logo-stage">
-            <img src={logo} alt="Jaylord Cabrera logo" />
-          </div>
-          <a className="scroll-cue" href="#home" aria-label="Scroll to introduction">
-            <span className="scroll-cue-mouse" aria-hidden="true"><i /></span>
-            <span>Scroll to explore</span>
-          </a>
-        </section>
-        <section className="hero section-shell" id="home">
+        <div ref={landingRef} className={`landing${landingDismissed ? " is-dismissed" : ""}`}>
+          <section className="mobile-logo-intro" aria-label="Jaylord Cabrera portfolio">
+            <div className="logo-stage">
+              <img src={logo} alt="Jaylord Cabrera logo" />
+            </div>
+            <a className="scroll-cue" href="#home" aria-label="Scroll to introduction">
+              <span className="scroll-cue-mouse" aria-hidden="true"><i /></span>
+              <span>Scroll to explore</span>
+            </a>
+          </section>
+          <section className="hero section-shell" id="home">
           <div className="hero-copy hero-enter" data-reveal>
             <p className="eyebrow">Hello, I am</p>
             <h1>JAYLORD <span>CABRERA</span></h1>
@@ -109,7 +117,8 @@ function App() {
             <div className="profile-frame"><img src={profile} alt="Jaylord Cabrera" className="profile" /></div>
             <div className="availability"><span /> Available for opportunities</div>
           </div>
-        </section>
+          </section>
+        </div>
 
         <section className="about section-shell" id="about">
           <div className="section-heading" data-reveal>
