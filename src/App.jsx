@@ -59,10 +59,7 @@ function App() {
 
   return (
     <>
-      <header className={`site-header${hasScrolled ? " is-scrolled" : ""}`}>
-        <a className="brand" href={landingDismissed ? "#about" : "#home"} aria-label="Jaylord Cabrera home">
-          <img src={logo} alt="Jaylord Cabrera logo" className="logo" />
-        </a>
+      <header className={`site-header${hasScrolled ? " is-scrolled" : ""}${landingDismissed ? " is-visible" : ""}`}>
         <button
           className="menu-toggle"
           type="button"
@@ -84,7 +81,7 @@ function App() {
         </nav>
       </header>
 
-      <main>
+      <main className={landingDismissed ? "landing-finished" : ""}>
         <div ref={landingRef} className={`landing${landingDismissed ? " is-dismissed" : ""}`}>
           <section className="mobile-logo-intro" aria-label="Jaylord Cabrera portfolio">
             <div className="logo-stage">
