@@ -60,3 +60,34 @@ h1 span,h2 span { color:var(--blue); }
 @media (max-width:480px) { .section-shell { width:calc(100% - 32px); }.mobile-logo-intro { min-height:clamp(270px,44svh,350px); }.hero { padding-block:64px 72px; }.buttons { flex-direction:column; }.button { width:100%; }.skills-grid { grid-template-columns:1fr; }.skill,.skill:nth-child(3n) { border-right:0; border-top:1px solid var(--line); }.skill:first-child { border-top:0; }.project-card { min-height:235px; }.button-light { white-space:normal; }.footer { min-height:120px; flex-wrap:wrap; align-content:center; gap:10px; }.footer address { width:100%; flex-direction:column; align-items:flex-start; gap:8px; } }
 @keyframes logo-glow { 50% { filter:drop-shadow(0 0 42px rgba(76,111,255,.75)); } }@keyframes logo-ripple { 0%,100% { opacity:.18; transform:scale(.9); }50% { opacity:.75; transform:scale(1.08); } }@keyframes logo-orbit { to { transform:rotate(360deg); } }@keyframes logo-float { 0%,100% { transform:translateY(0) rotate(-2deg); }50% { transform:translateY(-12px) rotate(2deg); } }@keyframes scroll-cue-bounce { 0%,100% { transform:translateY(0); opacity:.7; }50% { transform:translateY(7px); opacity:1; } }@keyframes scroll-wheel { 0% { transform:translateY(0); opacity:0; }25%,75% { opacity:1; }100% { transform:translateY(9px); opacity:0; } }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }[data-reveal] { opacity:1; transform:none; } }
+
+/* Desktop and tablets use the regular site immediately. */
+main {
+  padding-top:var(--header-height);
+}
+
+.site-header {
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+
+.landing {
+  display:none;
+}
+
+@media (min-width:601px) {
+  main { padding-top:var(--header-height); }
+  .site-header { opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0); }
+  .landing { display:none; }
+}
+
+/* The animated intro is intentionally limited to touch phones. */
+@media (max-width:600px) and (hover:none) and (pointer:coarse) {
+  main { padding-top:0; }
+  .site-header { opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-100%); }
+  .landing { display:block; }
+  .mobile-logo-intro { min-height:clamp(300px, 52svh, 440px); }
+  .logo-stage { transform:translateY(var(--logo-scroll-y, 0)) scale(var(--logo-scroll-scale, 1)); opacity:var(--logo-scroll-opacity, 1); animation:none; will-change:transform, opacity; }
+}

@@ -23,6 +23,20 @@ function App() {
   const landingRef = useRef(null);
 
   useEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+
+    const resetToTop = () => window.scrollTo(0, 0);
+    resetToTop();
+    window.addEventListener("pageshow", resetToTop);
+
+    return () => {
+      window.removeEventListener("pageshow", resetToTop);
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
+  }, []);
+
+  useEffect(() => {
     const elements = document.querySelectorAll("[data-reveal]");
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -39,7 +53,8 @@ function App() {
 
   useEffect(() => {
     const updateScrollState = () => {
-      const progress = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+      const landingHeight = landingRef.current?.offsetHeight || window.innerHeight;
+      const progress = Math.min(window.scrollY / Math.max(landingHeight * 0.8, 1), 1);
       document.documentElement.style.setProperty("--logo-scroll-scale", String(1 - progress * 0.46));
       document.documentElement.style.setProperty("--logo-scroll-y", `${progress * -90}px`);
       document.documentElement.style.setProperty("--logo-scroll-opacity", String(1 - progress * 0.8));
