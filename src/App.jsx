@@ -60,6 +60,9 @@ function App() {
   return (
     <>
       <header className={`site-header${hasScrolled ? " is-scrolled" : ""}${landingDismissed ? " is-visible" : ""}`}>
+        <a className="brand" href="#home" aria-label="Jaylord Cabrera home">
+          <img src={logo} alt="Jaylord Cabrera logo" className="logo" />
+        </a>
         <button
           className="menu-toggle"
           type="button"
@@ -73,7 +76,7 @@ function App() {
           <span />
         </button>
         <nav id="primary-navigation" className={menuOpen ? "is-open" : ""} aria-label="Main navigation">
-          <a href={landingDismissed ? "#about" : "#home"} onClick={closeMenu}>Home</a>
+          <a href="#home" onClick={closeMenu}>Home</a>
           <a href="#about" onClick={closeMenu}>About</a>
           <a href="#tools" onClick={closeMenu}>Tools</a>
           <a href="#projects" onClick={closeMenu}>Projects</a>
@@ -92,7 +95,8 @@ function App() {
               <span>Scroll to explore</span>
             </a>
           </section>
-          <section className="hero section-shell" id="home">
+        </div>
+        <section className="hero section-shell" id="home">
           <div className="hero-copy hero-enter" data-reveal>
             <p className="eyebrow">Hello, I am</p>
             <h1>JAYLORD <span>CABRERA</span></h1>
@@ -114,8 +118,7 @@ function App() {
             <div className="profile-frame"><img src={profile} alt="Jaylord Cabrera" className="profile" /></div>
             <div className="availability"><span /> Available for opportunities</div>
           </div>
-          </section>
-        </div>
+        </section>
 
         <section className="about section-shell" id="about">
           <div className="section-heading" data-reveal>
